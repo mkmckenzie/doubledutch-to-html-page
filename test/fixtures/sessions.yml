@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyString
+  start_time: MyString
+  end_time: MyString
+  location: MyString
+  session_tracks: MyString
+  filters: MyString
+  speaker_id: MyString
+  link_urls: MyString
+  session_id: MyString
+  program_id: 
+
+two:
+  name: MyString
+  description: MyString
+  start_time: MyString
+  end_time: MyString
+  location: MyString
+  session_tracks: MyString
+  filters: MyString
+  speaker_id: MyString
+  link_urls: MyString
+  session_id: MyString
+  program_id: 

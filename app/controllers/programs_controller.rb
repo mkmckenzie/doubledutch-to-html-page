@@ -1,15 +1,23 @@
 class ProgramsController < ApplicationController
-  before_action :set_program, only: [:show, :edit, :update, :destroy]
+  before_action :set_program, only: [:show, :download, :edit, :update, :destroy, ]
 
   # GET /programs
   # GET /programs.json
   def index
     @programs = Program.all
+
   end
 
   # GET /programs/1
   # GET /programs/1.json
   def show
+
+  end
+
+  def download
+    respond_to do |format|
+      format.html { send_data @program.build_schedule, filename: "#{@program.name}-#{Date.today}.html", notice: "Download starting"}
+    end
   end
 
   # GET /programs/new
@@ -24,17 +32,16 @@ class ProgramsController < ApplicationController
   # POST /programs
   # POST /programs.json
   def create
-    @program = Program.new(program_params)
-
+    file_session = params[:file_session]
+    file_speaker = params[:file_speaker]
+    @program = Program.create!(program_params)
+    sessions_count = Session.import(file_session, @program.id)
+    speakers_count = Speaker.import(file_speaker, @program.id)
     respond_to do |format|
-      if @program.save
-        format.html { redirect_to @program, notice: 'Program was successfully created.' }
-        format.json { render :show, status: :created, location: @program }
-      else
-        format.html { render :new }
-        format.json { render json: @program.errors, status: :unprocessable_entity }
-      end
+      format.html { redirect_to @program, notice: "Program was successfully created with #{sessions_count} sessions and #{speakers_count} speakers." }
+      format.json { render :show, status: :created, location: @program }
     end
+
   end
 
   # PATCH/PUT /programs/1
@@ -61,8 +68,6 @@ class ProgramsController < ApplicationController
     end
   end
 
-  def import
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -72,6 +77,6 @@ class ProgramsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def program_params
-      params.require(:program).permit(:name, :created_at)
+      params.permit(:name, :created_at)
     end
 end

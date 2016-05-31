@@ -1,0 +1,5 @@
+ <h3>Import Sessions CSV File</h3>
+  <%= form_tag import_program_sessions_path(:program_id), multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import Sessions CSV" %>
+  <% end %>

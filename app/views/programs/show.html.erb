@@ -10,5 +10,12 @@
   <%= @program.created_at %>
 </p>
 
+<p>
+  <strong>File:</strong>
+  <%= link_to 'Download HTML File', program_download_path %>
+  </p>
+
+
+
 <%= link_to 'Edit', edit_program_path(@program) %> |
 <%= link_to 'Back', programs_path %>
