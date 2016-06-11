@@ -1,19 +1,44 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @program.name %>
-</p>
+<h1><%= @program.name %></h1>
 
 <p>
   <strong>Created at:</strong>
-  <%= @program.created_at %>
+  <%= @created_at_time %>
 </p>
 
 <p>
   <strong>File:</strong>
   <%= link_to 'Download HTML File', program_download_path %>
   </p>
+
+
+<h1>Listing Sessions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Speakers?</th>
+      <th>download link</th>
+      <th>show html</th>
+      <th>Link?</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @program.sessions.sort_by {|session| [session.name] }.each do |session| %>
+      <tr>
+        <td><%= session.name %></td>
+        <td><%= session.speaker_id.split(",").count %></td>
+        <td><%= link_to 'Download HTML File', program_session_download_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'See HTML', program_session_path(session.program_id, session.id) %>
+        </td>
+        <td><%= link_to "#{session.link_urls}", session.link_urls %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 
 

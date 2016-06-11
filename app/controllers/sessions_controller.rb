@@ -10,6 +10,10 @@ class SessionsController < ApplicationController
     redirect_to root_url, notice: "Session Successfully Created"
   end
 
+  def show
+    @html_page = @program.sessions.find(params[:id]).build_session_page
+  end
+
   def update
   end
 
@@ -23,6 +27,12 @@ class SessionsController < ApplicationController
 
   def new
     @session = Session.new(:program => @program)
+  end
+
+  def download
+    respond_to do |format|
+      format.html { send_data @program.sessions.find(params[:id]).build_session_page, filename: "#{@program.sessions.find(params[:id]).name.gsub(/\W+/,"")}-#{Date.today}.html", notice: "Download starting"}
+    end
   end
 
   private

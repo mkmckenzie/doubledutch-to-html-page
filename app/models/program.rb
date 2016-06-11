@@ -1,6 +1,6 @@
 class Program < ActiveRecord::Base
   has_many :sessions, :dependent => :destroy
-  has_many :speakers
+  has_many :speakers, :dependent => :destroy
 
   accepts_nested_attributes_for :sessions 
   accepts_nested_attributes_for :speakers
@@ -17,64 +17,80 @@ class Program < ActiveRecord::Base
   def build_schedule
     sessions_clean = delete_if_name_is_nil
     speakers_clean = delete_if_name_is_nil_speaker
-    session_count = 0
-    @schedule = "<table>"
-    sessions_clean.sort_by! {|session| session["start_time"]}.each do |session|
-      day_title = "<h2><strong>#{format_date(session["start_time"])}</strong></h2>"
+    
+    @schedule = "<table class=\"schedule\">"
+
+    sessions_clean.sort_by! {|session| [session["start_time"], session["name"]]}.each do |session|
+      
+      day_title = "<h2 class=\"titleDate\"><strong>#{format_date(session["start_time"])}</strong></h2>"
       start_time = format_time(session["start_time"])
       end_time = format_time(session["end_time"])
+      weekday = format_day(session["start_time"])
       conf_code = format_conf_code(session["session_tracks"])
-      speakers = format_speakers(session["speaker_id"])
+      speakers = split_speakers(session["speaker_id"])
       description = get_plain_text(session["description"])
-      short_description = "#{description[0,200]}..."
-      @schedule << "<tr><td colspan=2 class=\"day\" id=\"#{DateTime.parse(session["start_time"]).utc.strftime("%A")}\">
-                    #{day_title}</td></tr>" unless @schedule.include?(day_title)
+      filters = session["filters"].split(",")
+      short_description = "#{description[0,200]}...".gsub("&nbsp;", "")
+      
+      @schedule << "<tr><td colspan=2 class=\"day\" id=\"#{weekday}\">
+                  #{day_title}</td></tr>" unless @schedule.include?(day_title)
+      
       @schedule << "<tr> \n
                     <td class=\"#{conf_code} dateTime\"> \n
                    #{start_time} &ndash; #{end_time}\n
-                    </td> \n"
-      @schedule << "<td class=\"#{conf_code} sessionInfo\"> \n
-                  <p class=\"sessionName\"><strong>#{session["name"]}</strong></p>\n
-                  <p class=\"speakers\"><em>#{speakers}</em></p> \n
-                  <p class=\"shortDescription\">
-                  #{short_description} </p> \n
-                  <p class=\"longDescription\" style=\"display: none;\">
-                  #{description}</p> \n 
-                  <p><span class=\"readMore\" id=\"#{session["session_id"]}\">
-                  Read More</span></p>
-                  <p><a href=\"#\">Click here for more information</a></p>\n"
-      conf_code.split(" ").each {|code| @schedule << "<div title=\"#{code}\" class=\"circle\"></div>" }
+                    </td> \n
+                    <td class=\"#{conf_code} sessionInfo\"> \n
+                    <p class=\"sessionName\"><strong>#{session["name"]}</strong></p>\n
+                    <p class=\"speakers\"><em>#{speakers}</em></p> \n
+                    <p class=\"shortDescription\"> #{short_description} </p> \n
+                    <p class=\"longDescription\" style=\"display: none;\">
+                    #{description}</p> \n 
+                    <p><span class=\"readMore\" id=\"#{session["session_id"]}\">
+                    Read More</span></p>
+                    <p><a href=\"#\">Click here for more information</a></p>\n"
+      filters.each {|filter| @schedule << "<div class=\"#{filter.gsub(" ", "")} filter\">#{filter}</div>" }
+      conf_code.split(" ").each {|code| @schedule << "<div title=\"#{code}\" class=\"#{code} circle\"></div>" }
       @schedule << "\n</td>\n</tr>"
-      session_count += 1
+    
     end
+
     @schedule << "</table>"
     
-    speakers_clean.each do |speaker|
-      fname = speaker["fname"].strip 
-      lname = speaker["lname"].strip
-      title = speaker["title"].strip
-      company = speaker["company"].strip
+    speakers_clean.each do |speaker| 
       spid = speaker["speaker_id"]
-      @schedule.gsub!(spid, "#{fname} #{lname}, #{title}, #{company}") if @schedule.include?(spid)
+      @schedule.gsub!(spid, 
+                      "#{speaker["fname"].strip} #{speaker["lname"].strip}, 
+                      #{speaker["title"].strip}, #{speaker["company"].strip}") if @schedule.include?(spid)
     end
 
     fix_cp1252_utf8(@schedule)
+
   end
 
+
   def format_date(date_string)
-    DateTime.parse(date_string).utc.strftime("%A, %B %e, %Y")
+    DateTime.parse(date_string.to_s).utc.strftime("%A, %B %e, %Y")
+  end
+
+  def format_day(day_string)
+    DateTime.parse(day_string.to_s).utc.strftime("%A")
   end
 
   def format_time(time_string)
-    DateTime.parse(time_string).utc.strftime("%l:%M %p")
+    DateTime.parse(time_string.to_s).utc.strftime("%l:%M %p")
+  end
+
+  def self.format_date_time_est(string)
+    Time.zone = 'Eastern Time (US & Canada)'
+    DateTime.parse(string.to_s).in_time_zone.strftime("%A, %B %e, %Y at %l:%M %p EST")
   end
 
   def format_conf_code(session_tracks)
     session_tracks.gsub(/,\s/, " ").gsub(/\s/, "").gsub(",", " ")
   end
 
-  def format_speakers(presenter)
-    presenter.gsub(",", "<br />") if presenter.include?(",")
+  def split_speakers(presenter)
+    presenter.split(',').join('<br />')
   end
 
   def get_plain_text(text)
@@ -91,7 +107,7 @@ class Program < ActiveRecord::Base
                 "\u009D" => "\x9D".force_encoding("cp1252")
               })
       .force_encoding("utf-8")
-end
+  end
 
 
 

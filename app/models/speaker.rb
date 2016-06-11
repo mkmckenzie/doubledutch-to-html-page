@@ -5,7 +5,7 @@ class Speaker < ActiveRecord::Base
   def self.import(file, program_id)
     speaker_count = 0
     CSV.foreach(file.path, headers: true) do |row|
-      Speaker.create(
+      Speaker.create!(
         fname: row["First Name (required)"], 
         lname: row["Last Name (required)"],
         title: row["Title"],

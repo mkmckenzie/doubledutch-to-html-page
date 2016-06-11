@@ -11,6 +11,7 @@ class ProgramsController < ApplicationController
   # GET /programs/1
   # GET /programs/1.json
   def show
+    @created_at_time = Program.format_date_time_est(@program.created_at)
 
   end
 
@@ -47,6 +48,11 @@ class ProgramsController < ApplicationController
   # PATCH/PUT /programs/1
   # PATCH/PUT /programs/1.json
   def update
+    file_session = params[:file_session]
+    file_speaker = params[:file_speaker]
+    sessions_count = Session.check_for_diff(file_session, @program.id)
+    speakers_count = Speaker.import(file_speaker, @program.id)
+
     respond_to do |format|
       if @program.update(program_params)
         format.html { redirect_to @program, notice: 'Program was successfully updated.' }
