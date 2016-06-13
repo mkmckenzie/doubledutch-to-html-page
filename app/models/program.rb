@@ -30,7 +30,7 @@ class Program < ActiveRecord::Base
       speakers = split_speakers(session["speaker_id"])
       description = get_plain_text(session["description"])
       filters = session["filters"].split(",")
-      short_description = "#{description[0,200]}...".gsub("&nbsp;", "")
+      short_description = "#{description.split(' ')[0..50].join(' ')}...".gsub("&nbsp;", "")
       link = if session["link_urls"].empty? || session["link_urls"].nil?
                 "#"
             else
