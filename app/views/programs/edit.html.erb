@@ -1,40 +1,7 @@
 <h1>Editing Program</h1>
-<%= form_tag(@program, multipart: true, method: "patch") do %>
- <div class="form-group">
-  <% if @program.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@program.errors.count, "error") %> prohibited this program from being saved:</h2>
-
-      <ul>
-      <% @program.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+  <%= form_tag(@program, multipart: true, method: "patch") do %>
+    <%= render 'form' %>
   <% end %>
-
-  <div class="field">
-    <%= label_tag(:name, "Program name") %><br>
-    <%= text_field_tag(:name) %>
-  </div>
-  <br />
-  <div class="field">
-    <%= label_tag(:file_session, "Session CSV") %> <br>
-    <%= file_field_tag(:file_session) %>
-  </div>
-  <br />  
-  <div class="field">
-    <%= label_tag(:file_speaker, "Speaker CSV") %> <br>
-    <%= file_field_tag(:file_speaker) %>
-  </div>
-  <br />
-  <div class="actions">
-    <%= submit_tag "Submit Program", class: "btn btn-primary" %>
-  </div>
-</div>
-<% end %>
-
-
 <%= link_to 'Show', @program %> |
 <%= link_to 'Back', programs_path %>
 

@@ -4,7 +4,7 @@ class Speaker < ActiveRecord::Base
   def self.import(file, program_id)
     speaker_count = 0
     CSV.foreach(file.path, headers: true) do |row|
-      @current = Session.find_or_create_by(speaker_id: row["Speaker ID"], program_id: program_id)
+      @current = Speaker.find_or_create_by(speaker_id: row["Speaker ID"], program_id: program_id)
       @current.update(
         fname: row["First Name (required)"], 
         lname: row["Last Name (required)"],

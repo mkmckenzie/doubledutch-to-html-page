@@ -34,15 +34,26 @@
   </thead>
 
   <tbody>
-    <% @program.sessions.sort_by {|session| [session.name] }.each do |session| %>
-      <tr>
+    <% @program.sessions.sort_by { |session| [session.name, session.start_time] }. each do |session| %>
+    <% if session.link_urls === "#" || session.link_urls.nil? || session.link_urls.empty? %>
+      <tr class="warning">
         <td><%= session.name %></td>
         <td><%= session.speaker_id.split(",").count %></td>
         <td><%= link_to 'Download HTML File', program_session_download_path(session.program_id, session.id) %></td>
         <td><%= link_to 'See HTML', program_session_path(session.program_id, session.id) %>
         </td>
-        <td><%= link_to "#{session.link_urls}", session.link_urls %></td>
+        <td>None</td> 
       </tr>
+    <% else %>
+        <tr>
+        <td><%= session.name %></td>
+        <td><%= session.speaker_id.split(",").count %></td>
+        <td><%= link_to 'Download HTML File', program_session_download_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'See HTML', program_session_path(session.program_id, session.id) %>
+        </td>
+        <td><%= link_to "Link", session.link_urls %></td> 
+      </tr>
+    <% end %>
     <% end %>
   </tbody>
 </table>

@@ -76,8 +76,7 @@ class Program < ActiveRecord::Base
                       #{speaker["title"].strip}, #{speaker["company"].strip}") if @schedule.include?(spid)
     end
 
-    #fix_cp1252_utf8(@schedule)
-    @schedule
+    fix_cp1252_utf8(@schedule)
 
   end
 
@@ -119,13 +118,16 @@ class Program < ActiveRecord::Base
   def fix_cp1252_utf8(text)
   text.encode('cp1252',
               :fallback => {
+                "\u06EA" => "\x6ea".force_encoding("cp1252"),
+                "\u06DD" => "\x6dd".force_encoding("cp1252"),
+                "\uFFFD" => "\xfffd".force_encoding("cp1252"),
                 "\u0081" => "\x81".force_encoding("cp1252"),
                 "\u008D" => "\x8D".force_encoding("cp1252"),
                 "\u008F" => "\x8F".force_encoding("cp1252"),
                 "\u0090" => "\x90".force_encoding("cp1252"),
                 "\u009D" => "\x9D".force_encoding("cp1252")
               })
-      .force_encoding("utf-8")
+      .force_encoding("utf-8").encode("utf-8")
   end
 
 

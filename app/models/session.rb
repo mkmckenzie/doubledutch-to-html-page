@@ -4,10 +4,10 @@ class Session < ActiveRecord::Base
   def self.import(file, program_id)
     sessions_count = 0
     CSV.foreach(file.path, headers: true) do |row|
-      unless row["Session ID"] == nil
+      unless row["Session ID"] == nil || row["Name (required)"] == nil
           @current = Session.find_or_create_by(session_id: row["Session ID"], program_id: program_id)
           @current.update(
-                name: row["Name (required)"], 
+                name: row["Name (required)"] || "none", 
                 description: row["Description"], 
                 start_time: row["Start Time (required)"], 
                 end_time: row["End Time (required)"], 
@@ -76,19 +76,22 @@ class Session < ActiveRecord::Base
                         </div>
                     </div>
                     HERE
-    #fix_cp1252_utf8(session_page)
+    fix_cp1252_utf8(session_page)
   end
 
   def fix_cp1252_utf8(text)
   text.encode('cp1252',
               :fallback => {
+                "\u06EA" => "\x6ea".force_encoding("cp1252"),
+                "\u06DD" => "\x6dd".force_encoding("cp1252"),
+                "\uFFFD" => "\xfffd".force_encoding("cp1252"),
                 "\u0081" => "\x81".force_encoding("cp1252"),
                 "\u008D" => "\x8D".force_encoding("cp1252"),
                 "\u008F" => "\x8F".force_encoding("cp1252"),
                 "\u0090" => "\x90".force_encoding("cp1252"),
                 "\u009D" => "\x9D".force_encoding("cp1252")
               })
-      .force_encoding("utf-8")
+      .force_encoding("utf-8").encode("utf-8")
   end
 
 end
