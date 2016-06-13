@@ -52,7 +52,7 @@ class Program < ActiveRecord::Base
       @schedule << <<-HERE
                       <tr>
                         <td class="#{format_conf_code(conf_code)} dateTime">#{start_time} &ndash; #{end_time}</td>
-                        <td class="#{conf_code} sessionInfo">
+                        <td class="#{format_conf_code(conf_code)} sessionInfo">
                           <p class="sessionName"><strong>#{session["name"]}</strong></p>
                           <p class="speakers"><em>#{speakers}</em></p>
                           <p class="shortDescription"> #{short_description} </p>
@@ -99,12 +99,13 @@ class Program < ActiveRecord::Base
   end
 
   def split_conf_code(session_tracks)
-    session_tracks.match(/([a-z]),([A-Z])/)
-    session_tracks.gsub(/([a-z]),([A-Z])/, "#{$1};#{$2}")
+    #edge case: track itself contains a comma which needs to be preserved. this method seperates tracks by semicolon, and subs back in the literal comma (grammatically often followed by a space)
+    session_tracks.gsub(",",";").gsub("; ", ", ")
   end
 
   def format_conf_code(session_tracks)
-    session_tracks.gsub(/,\s/, " ").gsub(/\s/, "").gsub(",", " ")
+    #replaces any literal commas (grammatically followed by a whitespace char), and whitespace chars with no spaces THEN replaces semicolon seperator with space. Spacing important for CSS classes. 
+    session_tracks.gsub(/(,\s|\s)/, "").gsub(/;/, " ")
   end
 
   def split_speakers(presenter)
