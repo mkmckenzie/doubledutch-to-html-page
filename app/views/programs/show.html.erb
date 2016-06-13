@@ -1,21 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<h1><%= @program.name %></h1>
+<h1>Program Page for <%= @program.name %></h1>
 
 <p>
   <strong>Created at:</strong>
   <%= @created_at_time %>
 </p>
+<p><strong>Last updated:</strong>
+  <%= @updated_at_time %>
+</p>
 
+<p><strong>
+  <%= link_to 'Download HTML File', program_download_path %> |  
+  <%= link_to 'Show HTML', program_text_path %>
+  </strong>
+</p>
 <p>
-  <strong>File:</strong>
-  <%= link_to 'Download HTML File', program_download_path %>
-  </p>
+<%= link_to 'Edit', edit_program_path(@program) %> |
+<%= link_to 'Back', programs_path %>
+</p>
 
+<h1>Sessions for <%= @program.name %></h1>
 
-<h1>Listing Sessions</h1>
-
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>
@@ -42,5 +49,4 @@
 
 
 
-<%= link_to 'Edit', edit_program_path(@program) %> |
-<%= link_to 'Back', programs_path %>
+

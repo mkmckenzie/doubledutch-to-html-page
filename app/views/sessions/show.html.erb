@@ -1,3 +1,5 @@
+<h1>Session Page HTML for <%= @session.name %></h1>
+<p>Use this to copy and paste into your webpage. If you are using a CMS, you will most likely have an "HTML" button on the text editor. </p>
+<p>Please note this does not include CSS styling.</p>
+<p><%= link_to 'Back to Program', program_path(@program.id), class: "btn btn-defaut btn-sm" %></p>
 <%= text_area_tag 'html', @html_page, size: "80x50" %>
-<br />
-<%= link_to 'Back', program_path(@program.id) %>

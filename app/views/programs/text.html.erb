@@ -1,0 +1,5 @@
+<h1>Conference Program HTML for <%=@program.name %></h1>
+<p>Use this to copy and paste into your webpage. If you are using a CMS, you will most likely have an "HTML" button on the text editor. </p>
+<%= text_area_tag 'html', @html_page, size: "100x70" %>
+<br />
+<%= link_to 'Back', program_path(:id), class: "btn btn-defaut btn-sm" %>

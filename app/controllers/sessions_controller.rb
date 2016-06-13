@@ -11,7 +11,9 @@ class SessionsController < ApplicationController
   end
 
   def show
-    @html_page = @program.sessions.find(params[:id]).build_session_page
+    @session = @program.sessions.find(params[:id])
+    @html_page = @session.build_session_page
+
   end
 
   def update

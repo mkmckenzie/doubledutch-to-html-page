@@ -1,6 +1,6 @@
 <h1>Editing Program</h1>
 <%= form_tag(@program, multipart: true, method: "patch") do %>
-  
+ <div class="form-group">
   <% if @program.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@program.errors.count, "error") %> prohibited this program from being saved:</h2>
@@ -29,11 +29,10 @@
   </div>
   <br />
   <div class="actions">
-    <%= submit_tag("Submit Program") %>
+    <%= submit_tag "Submit Program", class: "btn btn-primary" %>
   </div>
+</div>
 <% end %>
-
-
 
 
 <%= link_to 'Show', @program %> |

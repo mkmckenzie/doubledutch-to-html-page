@@ -1,5 +1,5 @@
 class ProgramsController < ApplicationController
-  before_action :set_program, only: [:show, :download, :edit, :update, :destroy, ]
+  before_action :set_program, only: [:show, :download, :edit, :update, :destroy, :text]
 
   # GET /programs
   # GET /programs.json
@@ -12,7 +12,12 @@ class ProgramsController < ApplicationController
   # GET /programs/1.json
   def show
     @created_at_time = Program.format_date_time_est(@program.created_at)
+    @updated_at_time = Program.format_date_time_est(@program.updated_at)
 
+  end
+
+  def text
+    @html_page = @program.build_schedule
   end
 
   def download
@@ -50,7 +55,7 @@ class ProgramsController < ApplicationController
   def update
     file_session = params[:file_session]
     file_speaker = params[:file_speaker]
-    sessions_count = Session.check_for_diff(file_session, @program.id)
+    sessions_count = Session.import(file_session, @program.id)
     speakers_count = Speaker.import(file_speaker, @program.id)
 
     respond_to do |format|
