@@ -22,7 +22,7 @@ class ProgramsController < ApplicationController
 
   def download
     respond_to do |format|
-      format.html { send_data @program.build_schedule, filename: "#{@program.name}-#{Date.today}.html", notice: "Download starting"}
+      format.html { send_data @program.build_schedule, filename: "#{@program.name}-#{Date.today}.html" }
     end
   end
 

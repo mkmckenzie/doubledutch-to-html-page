@@ -19,7 +19,7 @@ development:
   encoding: unicode
   database: wastecon_conf_program_development
   pool: 5
-  username: mmckenzie
+  username: mary-katherine
   password:
   timeout: 5000
  
@@ -49,6 +49,6 @@ test:
   encoding: unicode
   database: wastecon_conf_program_test
   pool: 5
-  username: mmckenzie
+  username: mary-katherine
   password:
   timeout: 5000
