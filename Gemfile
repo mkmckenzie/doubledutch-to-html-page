@@ -3,6 +3,10 @@ source 'https://rubygems.org'
 'ruby 2.0.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.2'
+
+#load dot env before postgres
+gem 'dotenv-rails', :groups => [:development, :test]
+
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.15'
 # Use SCSS for stylesheets
@@ -52,3 +56,5 @@ gem 'rails_12factor'
 gem 'twitter-bootstrap-rails'
 
 gem 'normalize-rails'
+
+
