@@ -1,4 +1,4 @@
-<p id="notice" class="alert alert-sucess"><%= notice %></p>
+
 
 <h1>Program Page for <%= @program.name %></h1>
 
@@ -44,16 +44,7 @@
         </td>
         <td>None</td> 
       </tr>
-    <% elsif @program.updated_at === session.updated_at %>
-      <tr class="danger">
-        <td><%= session.name %></td>
-        <td><%= session.speaker_id.split(",").count %></td>
-        <td><%= link_to 'Download HTML File', program_session_download_path(session.program_id, session.id) %></td>
-        <td><%= link_to 'See HTML', program_session_path(session.program_id, session.id) %>
-        </td>
-        <td><%= link_to "Update", session.link_urls %></td> 
-      </tr>
-    <% elsif session.speaker_id.split(",").map {|spid| Speaker.find_by(speaker_id: spid, program_id: @program.id).updated_at } >  %>
+    <% elsif session.speaker_id.split(",").map {|spid| Speaker.find_by(speaker_id: spid, program_id: @program.id).updated_at }.any? {|speaker_updated_time| speaker_updated_time > @program.created_at} %>
       <tr class="danger">
         <td><%= session.name %></td>
         <td><%= session.speaker_id.split(",").count %></td>

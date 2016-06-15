@@ -30,13 +30,11 @@ class Session < ActiveRecord::Base
     speakers_bios = ""
     speaker_id.split(",").each do |sid|
       speaker = program.speakers.find_by speaker_id: sid
-      speakers_list << "#{speaker.fname} #{speaker.lname}, 
-                        #{speaker.title.strip}, #{speaker.company}<br />"
+      speakers_list << "#{speaker.fname} #{speaker.lname}, #{speaker.title.strip}, #{speaker.company}<br />"
       speakers_bios << "<h3>#{speaker.fname} #{speaker.lname}</h3>"
       speakers_bios << "<div class=\"picture\"><img src=\"#{speaker.img_url}\" 
                         alt=\"#{speaker.fname} #{speaker.lname}\"></div>" unless speaker.img_url.empty? || speaker.img_url.nil?
-      speakers_bios << "<p class=\"bio\" id=\"#{speaker.fname.gsub(/\W+/, "")}
-                        #{speaker.lname.gsub(/\W+/, "")}\">"     
+      speakers_bios << "<p class=\"bio\" id=\"#{speaker.fname.gsub(/\W+/, "")}#{speaker.lname.gsub(/\W+/, "")}\">"     
       if speaker.description.empty? || speaker.description.nil?
         speakers_bios << "Bio Coming Soon</p>"
       else 
@@ -53,10 +51,9 @@ class Session < ActiveRecord::Base
     tech_tracks = "Session Tracks: #{session_tracks}" unless session_tracks.empty? || session_tracks.nil?
 
     date = "#{DateTime.parse(start_time.to_s).utc.strftime("%A, %B %e, %Y")}"
-    time = "#{DateTime.parse(start_time.to_s).utc.strftime("%l:%M %p")} - 
-            #{DateTime.parse(end_time.to_s).utc.strftime("%l:%M %p")}"
+    time = "#{DateTime.parse(start_time.to_s).utc.strftime("%l:%M %p")} -#{DateTime.parse(end_time.to_s).utc.strftime("%l:%M %p")}"
 
-    session_page = "<!--   URL is: #{name.gsub(/\W+/, "")}    --->"
+    session_page = "<!--   URL is: #{name.gsub(/\W+/, "")}    --->\n"
     session_page << <<-HERE 
                       <div class="sessionDescription">
                         <div class="session">

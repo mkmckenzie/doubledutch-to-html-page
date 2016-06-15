@@ -2,7 +2,7 @@
 <h2><em><%= @session.name %></em></h2>
 <p>Use this to copy and paste into your webpage. If you are using a CMS, you will most likely have an "HTML" button on the text editor. </p>
 <p>Please note this does not include CSS styling.</p>
-<p><%= link_to 'Back to Program', program_path(@program.id), class: "btn btn-defaut btn-sm" %></p>
+<p><%= link_to 'Back to Program', program_path(@program.id), class: "btn btn-default btn-sm" %></p>
 <div style="text-align: center;">
   <%= text_area_tag 'html', @html_page, size: "110%x50%" %>
 </div>
