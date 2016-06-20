@@ -3,6 +3,7 @@ class Session < ActiveRecord::Base
 
   def self.import(file, program_id)
     sessions_count = 0
+    session_ids_from_file = []
     CSV.foreach(file.path, headers: true) do |row|
       unless row["Session ID"] == nil || row["Name (required)"] == nil
           @current = Session.find_or_create_by(session_id: row["Session ID"], program_id: program_id)
@@ -17,9 +18,20 @@ class Session < ActiveRecord::Base
                 speaker_id: row["Speaker IDs"], 
                 link_urls: row["Link URLs"], 
                 session_id: row["Session ID"],
-                program_id: program_id
+                program_id: program_id,
+                deleted: false
                 )
+          session_ids_from_file << row["Session ID"]
       end
+      all_sessions = Session.where(program_id: program_id).map { |session| session.session_id }
+      
+      unless all_sessions - session_ids_from_file == 0
+        sessions_mark_as_deleted = all_sessions - session_ids_from_file
+        sessions_mark_as_deleted.each do |id|
+          Session.find_by(session_id: id, program_id: program_id).update(deleted: true)
+        end
+      end
+
       sessions_count += 1
     end
       sessions_count

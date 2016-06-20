@@ -7,11 +7,11 @@ class Program < ActiveRecord::Base
 
 
   def delete_if_name_is_nil
-    sessions.as_json.delete_if {|session| session["name"] == nil }
+    sessions.as_json.delete_if {|session| session["name"] == nil || session["deleted"] == true }
   end
 
   def delete_if_name_is_nil_speaker
-    speakers.as_json.delete_if {|session| session["speaker_id"] == nil }
+    speakers.as_json.delete_if {|speaker| speaker["speaker_id"] == nil }
   end
 
   def build_schedule

@@ -35,7 +35,16 @@
 
   <tbody>
     <% @program.sessions.sort_by { |session| [session.link_urls, session.name, session.start_time] }. each do |session| %>
-    <% if session.link_urls === "#" || session.link_urls.nil? || session.link_urls.empty? %>
+    <% if session.deleted == true %>
+       <tr class="danger">
+        <td><%= session.name %></td>
+        <td><%= session.speaker_id.split(",").count %></td>
+        <td><%= link_to 'Download HTML File', program_session_download_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'See HTML', program_session_path(session.program_id, session.id) %>
+        </td>
+        <td><%= link_to "DELETE", session.link_urls %></td> 
+      </tr>
+    <% elsif session.link_urls === "#" || session.link_urls.nil? || session.link_urls.empty? %>
       <tr class="warning">
         <td><%= session.name %></td>
         <td><%= session.speaker_id.split(",").count %></td>
@@ -43,15 +52,6 @@
         <td><%= link_to 'See HTML', program_session_path(session.program_id, session.id) %>
         </td>
         <td>None</td> 
-      </tr>
-    <% elsif session.speaker_id.split(",").map {|spid| Speaker.find_by(speaker_id: spid, program_id: @program.id).updated_at }.any? {|speaker_updated_time| speaker_updated_time > @program.created_at} %>
-      <tr class="danger">
-        <td><%= session.name %></td>
-        <td><%= session.speaker_id.split(",").count %></td>
-        <td><%= link_to 'Download HTML File', program_session_download_path(session.program_id, session.id) %></td>
-        <td><%= link_to 'See HTML', program_session_path(session.program_id, session.id) %>
-        </td>
-        <td><%= link_to "Update", session.link_urls %></td> 
       </tr>
     <% else %>
         <tr>
