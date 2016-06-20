@@ -1,5 +1,6 @@
-
-
+<% if @program.user_id != current_user.id %>
+  <h1>Whoops! This program does not belong to you.</h1>
+<% else %>
 <h1>Program Page for <%= @program.name %></h1>
 
 <p>
@@ -66,6 +67,7 @@
     <% end %>
   </tbody>
 </table>
+<% end %>
 
 
 

@@ -1,6 +1,6 @@
 class ProgramsController < ApplicationController
   before_action :set_program, only: [:show, :download, :edit, :update, :destroy, :text]
-
+  
   # GET /programs
   # GET /programs.json
   def index
@@ -41,6 +41,8 @@ class ProgramsController < ApplicationController
     file_session = params[:file_session]
     file_speaker = params[:file_speaker]
     @program = Program.create!(program_params)
+    @program.user_id = current_user.id
+    @program.save
     sessions_count = Session.import(file_session, @program.id)
     speakers_count = Speaker.import(file_speaker, @program.id)
     respond_to do |format|

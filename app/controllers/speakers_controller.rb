@@ -1,5 +1,6 @@
 class SpeakersController < ApplicationController
   before_action :set_program, except: [:import]
+  
 
   def index
     @speakers = @program.speakers

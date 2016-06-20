@@ -1,10 +1,10 @@
 class Program < ActiveRecord::Base
   has_many :sessions, :dependent => :destroy
   has_many :speakers, :dependent => :destroy
+  belongs_to :user
 
   accepts_nested_attributes_for :sessions 
   accepts_nested_attributes_for :speakers
-
 
   def delete_if_name_is_nil
     sessions.as_json.delete_if {|session| session["name"] == nil || session["deleted"] == true }

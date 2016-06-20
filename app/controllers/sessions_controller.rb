@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   before_action :set_program, except: [:import]
+ 
 
   def index
     @sessions = @program.sessions

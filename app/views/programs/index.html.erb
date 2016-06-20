@@ -1,4 +1,4 @@
-<h1>Programs</h1>
+<h1>Your Programs</h1>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -10,13 +10,15 @@
 
   <tbody>
     <% @programs.each do |program| %>
+    <% if program.user_id == current_user.id %>
       <tr>
         <td><%= program.name %></td>
-        <td><%= program.created_at %></td>
-        <td><%= link_to 'Show', program %></td>
+        <td><%= program.created_at.in_time_zone("Eastern Time (US & Canada)").strftime("%A, %D, %r") %> EST </td>
+        <td><%= link_to 'View', program %></td>
         <td><%= link_to 'Edit', edit_program_path(program) %></td>
-        <td><%= link_to 'Destroy', program, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', program, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
