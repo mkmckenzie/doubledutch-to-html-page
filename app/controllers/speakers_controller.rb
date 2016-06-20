@@ -31,5 +31,5 @@ class SpeakersController < ApplicationController
     @program = Program.find(params[:program_id])
   end
 
-end
+
 end
