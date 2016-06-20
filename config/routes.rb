@@ -11,8 +11,10 @@ Rails.application.routes.draw do
 
   get 'programs/:id/text', to: 'programs#text', as: 'program_text'
 
-  get "/pages/welcome", to: "pages#welcome", as: 'pages_welcome'
-  get "/pages/howto", to: "pages#howto", as: 'pages_howto'
+  #get "/pages/welcome", to: "pages#welcome", as: 'pages_welcome'
+  #get "/pages/howto", to: "pages#howto", as: 'pages_howto'
+
+  get "/pages/:page" => "pages#show"
   
 
   resources :programs do 
@@ -20,5 +22,5 @@ Rails.application.routes.draw do
     resources :sessions
   end
 
-  root to: 'pages#welcome'
+  root to: 'pages#show', page: "welcome"
 end

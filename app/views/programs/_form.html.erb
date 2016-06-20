@@ -1,5 +1,5 @@
 
-  <div class="form-group">
+  
   <% if @program.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@program.errors.count, "error") %> prohibited this program from being saved:</h2>
@@ -11,19 +11,19 @@
       </ul>
     </div>
   <% end %>
-
+<div class="form-group">
   <div class="field">
-    <%= label_tag(:name, "Program name") %><br>
-    <%= text_field_tag :name, @program.name || "" %>
+    <%= label_tag(:name, "Program name") %> 
+    <%= text_field_tag :name, @program.name || "", class: 'form-control' %>
   </div>
   <br />
   <div class="field">
-    <%= label_tag(:file_session, "Session CSV") %> <br>
+    <%= label_tag(:file_session, "Session CSV") %> 
     <%= file_field_tag(:file_session) %>
   </div>
   <br />  
   <div class="field">
-    <%= label_tag(:file_speaker, "Speaker CSV") %> <br>
+    <%= label_tag(:file_speaker, "Speaker CSV") %>  
     <%= file_field_tag(:file_speaker) %>
   </div>
   <br />

@@ -1,11 +1,15 @@
-<% if @program.user_id != current_user.id %>
+<div class="panel panel-default">
+  <div class="panel-body">
+  <% if @program.user_id != current_user.id %>
   <h1>Whoops! This program does not belong to you.</h1>
 <% else %>
-  <h1>Editing Program</h1>
+  <h1>Edit Program</h1>
     <%= form_tag(@program, multipart: true, method: "patch") do %>
       <%= render 'form' %>
     <% end %>
     <%= link_to 'Show', @program %> |
     <%= link_to 'Back', programs_path %>
 <% end %>
+</div>
+</div>
 

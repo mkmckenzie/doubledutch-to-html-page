@@ -9,6 +9,11 @@
 */
 
 
-body {
-  background-image: url(image_path('background.jpeg'));
+body{
+  background-image: url(background.jpeg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #000;
 }

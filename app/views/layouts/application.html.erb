@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Conference Program Builder</title>
+  <title>Event Program Builder</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -12,7 +12,7 @@
     <ul class="nav navbar-nav">
       <li><%= link_to 'Home', root_path %></li>
       <li><%= link_to 'View or Add Programs', programs_path %></li>
-      <li><%= link_to 'How To Use This Site', pages_howto_path %></li>
+      <li><%= link_to 'How To Use This Site' %></li>
     </ul>
     <div class="pull-right">
     <% if user_signed_in? %>
@@ -42,9 +42,16 @@
               <p class="alert alert-danger"><%= alert %></p>
             <% end %>
     			<%= yield %>
+
     		</div>
     	</div>
     </div>
+          <!--<footer class="footer">
+            <div class="container">
+              <p class="text-center">
+                Questions or comments? Click here to contact the creator.</p>
+            </div>
+          </footer>-->
 
 </body>
 </html>
