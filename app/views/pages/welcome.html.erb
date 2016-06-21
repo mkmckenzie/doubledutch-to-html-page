@@ -1,5 +1,24 @@
-<div class="jumbotron">
-  <h1> Welcome! </h1>
-  <p style="line-height:normal;">This site will take CSVs exported from DoubleDutch event app software and convert them to full conference program pages that can be copied and pasted into any website or CMS.</p>
-  <p><%= link_to 'Get Started', programs_path, class: "btn btn-success btn-lg" %></p>
+<div class="fullBody">
+  <div class="jumbotron">
+    <h1> Welcome! </h1>
+    <p class="lead">This site will take CSVs exported from DoubleDutch event app software and convert them to full conference program pages that can be copied and pasted into any website or CMS.</p>
+    <p><%= link_to 'Get Started', programs_path, class: "btn btn-success btn-lg" %></p>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title">How To Use This Site:</h2>
+  </div>
+  <div class="panel-body">
+    <p>This site was created to convert CSV spreadsheets exported from DoubleDutch event app's software into HTML programs to be displayed on your website. CSS stylesheets are not included.</p>
+    <p>You will need a spreadsheet for sessions and one for speakers.</p>
+    <p>The <strong>session</strong> spreadsheet must have the following headers:</p>
+    <ul>
+      <li>Name (required)</li><li>Description</li><li>Start Time (required)</li><li>End Time (required)</li><li>Location</li><li>Session Tracks</li><li>Filters</li><li>Speaker IDs</li><li>Link URLs</li><li>Session ID</li>
+    </ul>
+    <p>The <strong>speaker</strong> spreadsheet must have the following headers:</p>
+    <ul>
+    <li>First Name (required)</li><li> Last Name (required)</li><li>  Title</li><li> Company</li><li> Description</li><li> Image URL</li><li> Website</li><li> Twitter Handle</li><li>  Facebook URL</li><li>  LinkedIn URL</li><li>  Session IDs</li><li> Attendee ID</li><li> Speaker ID</li>
+  </ul>
+  </div>
 </div>

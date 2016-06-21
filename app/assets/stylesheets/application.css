@@ -8,12 +8,33 @@
  *= require_tree .
 */
 
+/*body {
+  background-color: #000 !important;
+}*/
 
-body{
-  background-image: url(background.jpeg);
+
+#main-container:before {
+  background-image: url(landscape.jpeg);
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   background-color: #000;
+  width: 100%;
+  min-height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: -1;
+  -webkit-filter: opacity(20%);
+  -moz-filter: opacity(20%);
+  -o-filter: opacity(20%);
+  -ms-filter: opacity(20%);
+  filter: opacity(20%);
+
 }
+body {
+  background: none !important;
+ 
+}
+

@@ -2,7 +2,6 @@ class Session < ActiveRecord::Base
   belongs_to :program
 
   def self.import(file, program_id)
-    sessions_count = 0
     session_ids_from_file = []
     CSV.foreach(file.path, headers: true) do |row|
       unless row["Session ID"] == nil || row["Name (required)"] == nil
@@ -31,10 +30,8 @@ class Session < ActiveRecord::Base
           Session.find_by(session_id: id, program_id: program_id).update(deleted: true)
         end
       end
-
-      sessions_count += 1
     end
-      sessions_count
+      Session.where(program_id: program_id).count
   end
 
   def build_session_page

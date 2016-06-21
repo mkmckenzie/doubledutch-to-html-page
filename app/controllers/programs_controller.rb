@@ -38,36 +38,47 @@ class ProgramsController < ApplicationController
   # POST /programs
   # POST /programs.json
   def create
-    file_session = params[:file_session]
-    file_speaker = params[:file_speaker]
-    @program = Program.create!(program_params)
-    @program.user_id = current_user.id
-    @program.save
-    sessions_count = Session.import(file_session, @program.id)
-    speakers_count = Speaker.import(file_speaker, @program.id)
-    respond_to do |format|
-      format.html { redirect_to @program, notice: "Program was successfully created with #{sessions_count} sessions and #{speakers_count} speakers." }
-      format.json { render :show, status: :created, location: @program }
+    
+      file_session = params[:file_session]
+      file_speaker = params[:file_speaker]
+      @program = Program.create!(program_params)
+      @program.user_id = current_user.id
+      @program.import_time = 0
+      @program.save
+      sessions_count = Session.import(file_session, @program.id)
+      speakers_count = Speaker.import(file_speaker, @program.id)
+    if sessions_count > 0 && speakers_count > 0
+      respond_to do |format|
+        format.html { redirect_to @program, notice: "Program was successfully created with #{sessions_count} sessions and #{speakers_count} speakers." }
+        format.json { render :show, status: :created, location: @program }
+      end
+    else
+      redirect_to new_program_path, alert: "Unexpected CSV format, no rows were imported. Please download template."
+      @program.destroy!
     end
-
   end
 
   # PATCH/PUT /programs/1
   # PATCH/PUT /programs/1.json
   def update
-    file_session = params[:file_session]
-    file_speaker = params[:file_speaker]
-    sessions_count = Session.import(file_session, @program.id)
-    speakers_count = Speaker.import(file_speaker, @program.id)
-
-    respond_to do |format|
-      if @program.update(program_params)
-        format.html { redirect_to @program, notice: 'Program was successfully updated.' }
-        format.json { render :show, status: :ok, location: @program }
-      else
-        format.html { render :edit }
-        format.json { render json: @program.errors, status: :unprocessable_entity }
-      end
+      file_session = params[:file_session]
+      file_speaker = params[:file_speaker]
+      sessions_count = Session.import(file_session, @program.id)
+      speakers_count = Speaker.import(file_speaker, @program.id)
+      @program.import_time = Time.now
+      @program.save
+      if sessions_count > 0 && speakers_count > 0
+        respond_to do |format|
+          if @program.update(program_params)
+            format.html { redirect_to @program, notice: 'Program was successfully updated.' }
+            format.json { render :show, status: :ok, location: @program }
+          else
+            format.html { render :edit }
+            format.json { render json: @program.errors, status: :unprocessable_entity }
+          end
+        end
+    else
+      redirect_to edit_program_path, alert: "Unexpected CSV format, no rows were imported. Please download template."
     end
   end
 

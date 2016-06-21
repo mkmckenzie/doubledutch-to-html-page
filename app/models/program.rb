@@ -6,6 +6,7 @@ class Program < ActiveRecord::Base
   accepts_nested_attributes_for :sessions 
   accepts_nested_attributes_for :speakers
 
+
   def delete_if_name_is_nil
     sessions.as_json.delete_if {|session| session["name"] == nil || session["deleted"] == true }
   end

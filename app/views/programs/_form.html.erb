@@ -18,13 +18,11 @@
   </div>
   <br />
   <div class="field">
-    <%= label_tag(:file_session, "Session CSV") %> 
-    <%= file_field_tag(:file_session) %>
+    <%= label_tag(:file_session, "Session CSV") %> <%= file_field_tag :file_session, accept: 'text/csv' %>
   </div>
   <br />  
   <div class="field">
-    <%= label_tag(:file_speaker, "Speaker CSV") %>  
-    <%= file_field_tag(:file_speaker) %>
+    <%= label_tag(:file_speaker, "Speaker CSV") %> <%= file_field_tag :file_speaker, accept: 'text/csv' %>
   </div>
   <br />
   <div class="actions">

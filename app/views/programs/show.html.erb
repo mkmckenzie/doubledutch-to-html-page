@@ -1,65 +1,73 @@
+<%= link_to 'Back', programs_path, class: 'btn btn-default btn-sm', role: "button" %>
 <% if @program.user_id != current_user.id %>
   <h1>Whoops! This program does not belong to you.</h1>
 <% else %>
-<h1>Program Page for <%= @program.name %></h1>
+<div class="page-header">
+  <h1><%= @program.name %></h1>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title"><%= @program.name %> Info</h3></div>
+  <div class="panel-body">
+    <p>
+      <strong>Created at:</strong>
+      <%= @created_at_time %><br />
+       <strong>Last updated:</strong>
+      <%= @updated_at_time %>
+    </p>
 
-<p>
-  <strong>Created at:</strong>
-  <%= @created_at_time %>
-</p>
-<p><strong>Last updated:</strong>
-  <%= @updated_at_time %>
-</p>
-
-<p><strong>
-  <%= link_to 'Download HTML File', program_download_path %> |  
-  <%= link_to 'Show HTML', program_text_path %>
-  </strong>
-</p>
-<p>
-<%= link_to 'Edit', edit_program_path(@program) %> |
-<%= link_to 'Back', programs_path %>
-</p>
-
-<h1>Sessions for <%= @program.name %></h1>
+    <p>
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <%= link_to 'Download HTML File', program_download_path, class: "btn btn-default", role: "button" %> 
+        <%= link_to 'Show HTML', program_text_path, class: "btn btn-default", role: "button" %>
+      </div>
+    </p>
+  </div>
+</div>
+<div class="page-header">
+  <h1>Sessions for <%= @program.name %> &nbsp; &nbsp; <small><%= link_to 'Upload New Sessions', edit_program_path(@program), class: 'btn btn-success btn-sm' %></small></h1>
+</div>
 
 <table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>
-      <th>Speakers?</th>
-      <th>download link</th>
-      <th>show html</th>
-      <th>Link?</th>
+      <th>Download HTML</th>
+      <th>Show HTML</th>
+      <th>Link</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @program.sessions.sort_by { |session| [session.link_urls, session.name, session.start_time] }. each do |session| %>
+    <% @program.sessions.sort_by { |session| [session.link_urls, session.start_time, session.name] }. each do |session| %>
     <% if session.deleted == true %>
        <tr class="danger">
         <td><%= session.name %></td>
-        <td><%= session.speaker_id.split(",").count %></td>
-        <td><%= link_to 'Download HTML File', program_session_download_path(session.program_id, session.id) %></td>
-        <td><%= link_to 'See HTML', program_session_path(session.program_id, session.id) %>
+        <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
         </td>
-        <td><%= link_to "DELETE", session.link_urls %></td> 
+        <td><%= link_to "DELETED", session.link_urls %></td> 
       </tr>
     <% elsif session.link_urls === "#" || session.link_urls.nil? || session.link_urls.empty? %>
       <tr class="warning">
         <td><%= session.name %></td>
-        <td><%= session.speaker_id.split(",").count %></td>
-        <td><%= link_to 'Download HTML File', program_session_download_path(session.program_id, session.id) %></td>
-        <td><%= link_to 'See HTML', program_session_path(session.program_id, session.id) %>
+        <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
         </td>
         <td>None</td> 
+      </tr>
+    <% elsif session.updated_at == @program.import_time %>
+      <tr class="success">
+        <td><%= session.name %></td>
+        <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
+        </td>
+        <td><%= link_to "UPDATE", session.link_urls %></td> 
       </tr>
     <% else %>
         <tr>
         <td><%= session.name %></td>
-        <td><%= session.speaker_id.split(",").count %></td>
-        <td><%= link_to 'Download HTML File', program_session_download_path(session.program_id, session.id) %></td>
-        <td><%= link_to 'See HTML', program_session_path(session.program_id, session.id) %>
+        <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
         </td>
         <td><%= link_to "Link", session.link_urls %></td> 
       </tr>

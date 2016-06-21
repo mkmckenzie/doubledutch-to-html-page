@@ -12,7 +12,6 @@
     <ul class="nav navbar-nav">
       <li><%= link_to 'Home', root_path %></li>
       <li><%= link_to 'View or Add Programs', programs_path %></li>
-      <li><%= link_to 'How To Use This Site' %></li>
     </ul>
     <div class="pull-right">
     <% if user_signed_in? %>
@@ -41,7 +40,11 @@
             <% if alert %>
               <p class="alert alert-danger"><%= alert %></p>
             <% end %>
-    			<%= yield %>
+            <div class="panel panel-default">
+              <div class="panel-body">
+    			     <%= yield %>
+              </div>
+            </div>
 
     		</div>
     	</div>
