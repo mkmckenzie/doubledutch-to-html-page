@@ -70,6 +70,14 @@
         </td>
         <td><%= link_to "DELETED", session.link_urls %></td> 
       </tr>
+      <% elsif session.link_urls === "#" || session.link_urls.nil? || session.link_urls.empty? %>
+      <tr class="warning">
+        <td><%= session.name %></td>
+        <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
+        </td>
+        <td>None</td> 
+      </tr>
     <% elsif ( @program.did_speakers_update(session.session_id) && @program.did_session_update(session.session_id) ) %>
       <tr class="info">
         <td><%= session.name %></td>
@@ -94,14 +102,7 @@
         </td>
         <td><%= link_to 'Session Updated', session.link_urls %></td>
       </tr>
-    <% elsif session.link_urls === "#" || session.link_urls.nil? || session.link_urls.empty? %>
-      <tr class="warning">
-        <td><%= session.name %></td>
-        <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
-        <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
-        </td>
-        <td>None</td> 
-      </tr>
+    
 
     <% else %>
         <tr>
