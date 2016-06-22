@@ -39,7 +39,11 @@ class Program < ActiveRecord::Base
             end
       
       meeting_type = ""
-      filters.each {|filter| meeting_type << "<div class=\"#{filter.gsub(" ", "")} filter\">#{filter}</div>" }
+      filter_list = ""
+      filters.each do |filter| 
+        meeting_type << "<div class=\"#{filter.gsub(" ", "")} filter\">#{filter}</div>"
+        filter_list << filter.gsub(" ", "").gsub(",", " ")
+      end
       
       circles = ""
 
@@ -52,8 +56,8 @@ class Program < ActiveRecord::Base
       
       @schedule << <<-HERE
                       <tr>
-                        <td class="#{format_conf_code(conf_code)} dateTime">#{start_time} &ndash; #{end_time}</td>
-                        <td class="#{format_conf_code(conf_code)} sessionInfo">
+                        <td class="#{filter_list} #{format_conf_code(conf_code)} dateTime">#{start_time} &ndash; #{end_time}</td>
+                        <td class="#{filter_list} #{format_conf_code(conf_code)} sessionInfo">
                           <p class="sessionName"><strong>#{session["name"]}</strong></p>
                           <p class="speakers"><em>#{speakers}</em></p>
                           <p class="shortDescription"> #{short_description} </p>
