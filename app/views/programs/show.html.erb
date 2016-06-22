@@ -27,7 +27,30 @@
   <h1>Sessions for <%= @program.name %> &nbsp; &nbsp; <small><%= link_to 'Upload New Sessions', edit_program_path(@program), class: 'btn btn-success btn-sm' %></small></h1>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Key</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="danger">
+      <td>Session has been deleted.</td>
+    </tr>
+    <tr class="info">
+      <td>Session has been updated since last import. Update information on linked page.</td>
+    </tr>
+    <tr class="warning">
+      <td>Session does not have a detail page linked.</td>
+    </tr>
+     <tr>
+      <td>Session has not been updated, deleted, and has a detail page in place.</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<table class="table table-striped table-bordered">
   <thead>
     <tr>
       <th>Name</th>
@@ -53,7 +76,7 @@
         <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
         <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
         </td>
-        <td><%= link_to 'Speaker & Session Update', program_session_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'Speaker & Session Updated', program_session_path(session.program_id, session.id) %></td>
       </tr>
   <% elsif @program.did_speakers_update(session.session_id) %>
       <tr class="info">
@@ -61,7 +84,7 @@
         <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
         <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
         </td>
-        <td><%= link_to 'Speaker Update', program_session_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'Speaker Updated', program_session_path(session.program_id, session.id) %></td>
       </tr>
   <% elsif @program.did_session_update(session.session_id) %>
       <tr class="info">
@@ -69,7 +92,7 @@
         <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
         <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
         </td>
-        <td><%= link_to 'Session Update', program_session_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'Session Updated', program_session_path(session.program_id, session.id) %></td>
       </tr>
     <% elsif session.link_urls === "#" || session.link_urls.nil? || session.link_urls.empty? %>
       <tr class="warning">
