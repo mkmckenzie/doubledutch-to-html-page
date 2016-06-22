@@ -49,9 +49,9 @@ class Program < ActiveRecord::Base
       conf_code = split_conf_code(session["session_tracks"])
       print session["session_tracks"]
       speakers = split_speakers(session["speaker_id"])
-      description = get_plain_text(session["description"])
+      description = session["description"]
       filters = session["filters"].split(",")
-      short_description = "#{description.split(' ')[0..50].join(' ')}...".gsub("&nbsp;", "")
+      short_description = "#{get_plain_text(description).split(' ')[0..50].join(' ')}...".gsub("&nbsp;", "")
       link = if session["link_urls"].empty? || session["link_urls"].nil?
                 "#"
             else
