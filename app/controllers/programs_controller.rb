@@ -13,7 +13,6 @@ class ProgramsController < ApplicationController
   def show
     @created_at_time = Program.format_date_time_est(@program.created_at)
     @updated_at_time = Program.format_date_time_est(@program.updated_at)
-
   end
 
   def text

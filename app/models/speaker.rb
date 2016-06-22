@@ -23,6 +23,6 @@ class Speaker < ActiveRecord::Base
         )
       end
     end
-    Speaker.where(program_id: program_id).count
+    Speaker.where(program_id: program_id).count 
   end
 end

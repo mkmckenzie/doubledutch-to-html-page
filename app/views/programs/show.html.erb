@@ -47,6 +47,30 @@
         </td>
         <td><%= link_to "DELETED", session.link_urls %></td> 
       </tr>
+    <% elsif ( @program.did_speakers_update(session.session_id) && @program.did_session_update(session.session_id) ) %>
+      <tr class="info">
+        <td><%= session.name %></td>
+        <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
+        </td>
+        <td><%= link_to 'Speaker & Session Update', program_session_path(session.program_id, session.id) %></td>
+      </tr>
+  <% elsif @program.did_speakers_update(session.session_id) %>
+      <tr class="info">
+        <td><%= session.name %></td>
+        <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
+        </td>
+        <td><%= link_to 'Speaker Update', program_session_path(session.program_id, session.id) %></td>
+      </tr>
+  <% elsif @program.did_session_update(session.session_id) %>
+      <tr class="info">
+        <td><%= session.name %></td>
+        <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
+        <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
+        </td>
+        <td><%= link_to 'Session Update', program_session_path(session.program_id, session.id) %></td>
+      </tr>
     <% elsif session.link_urls === "#" || session.link_urls.nil? || session.link_urls.empty? %>
       <tr class="warning">
         <td><%= session.name %></td>
@@ -55,14 +79,7 @@
         </td>
         <td>None</td> 
       </tr>
-    <% elsif session.updated_at == @program.import_time %>
-      <tr class="success">
-        <td><%= session.name %></td>
-        <td><%= link_to 'Download', program_session_download_path(session.program_id, session.id) %></td>
-        <td><%= link_to 'View', program_session_path(session.program_id, session.id) %>
-        </td>
-        <td><%= link_to "UPDATE", session.link_urls %></td> 
-      </tr>
+
     <% else %>
         <tr>
         <td><%= session.name %></td>

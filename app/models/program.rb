@@ -15,6 +15,26 @@ class Program < ActiveRecord::Base
     speakers.as_json.delete_if {|speaker| speaker["speaker_id"] == nil }
   end
 
+  def did_speakers_update(sess_id)
+    speak_ids_ary = sessions.find_by(session_id: sess_id).speaker_id.split(",")
+    return false if ( speak_ids_ary == nil || speak_ids_ary.include?(nil) )
+    speak_updated_at = speak_ids_ary.map { |speakerid| Speaker.find_by(speaker_id: speakerid, program_id: id).updated_at.strftime('%c') }
+    if speak_updated_at.include? import_time.strftime('%c')
+      true
+    else
+      false
+    end
+  end
+
+  def did_session_update(sess_id)
+    current_sess_updated_at = sessions.find_by(session_id: sess_id, program_id: id).updated_at.strftime('%c')
+    if current_sess_updated_at == import_time.strftime('%c')
+      true
+    else
+      false
+    end
+  end
+
   def build_schedule
     sessions_clean = delete_if_name_is_nil
     speakers_clean = delete_if_name_is_nil_speaker
