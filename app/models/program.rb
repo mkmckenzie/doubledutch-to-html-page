@@ -47,7 +47,6 @@ class Program < ActiveRecord::Base
       end_time = format_time(session["end_time"])
       weekday = format_day(session["start_time"])
       conf_code = split_conf_code(session["session_tracks"])
-      print session["session_tracks"]
       speakers = split_speakers(session["speaker_id"])
       description = session["description"]
       filters = session["filters"].split(",")
@@ -61,8 +60,9 @@ class Program < ActiveRecord::Base
       meeting_type = ""
       filter_list = ""
       filters.each do |filter| 
-        meeting_type << "<div class=\"#{filter.gsub(" ", "")} filter\">#{filter}</div>"
-        filter_list << filter.gsub(" ", "").gsub(",", " ").gsub("&","").gsub("-", "").gsub("+","")
+        filter = filter.gsub(" ", "").gsub(",", " ").gsub("&","").gsub("-", "").gsub("+","")
+        meeting_type << "<div class=\"#{filter} filter\">#{filter}</div>"
+        filter_list << filter
       end
       
       circles = ""
@@ -80,7 +80,7 @@ class Program < ActiveRecord::Base
                         <td class="#{filter_list} #{format_conf_code(conf_code)} sessionInfo">
                           <p class="sessionName"><strong>#{session["name"]}</strong></p>
                           <p class="speakers"><em>#{speakers}</em></p>
-                          <div class="shortDescription" style="display: none;> #{short_description} </div>
+                          <div class="shortDescription" style="display: none;"> #{short_description} </div>
                           <div class="longDescription" style="display: none;">#{description}</div>
                           <p style="display: none;"><span class="readMore" id="#{session["session_id"]}">Read More</span></p>
                           <p><a href="#{link}">Click here for more information</a></p>
