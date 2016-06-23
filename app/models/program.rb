@@ -80,9 +80,9 @@ class Program < ActiveRecord::Base
                         <td class="#{filter_list} #{format_conf_code(conf_code)} sessionInfo">
                           <p class="sessionName"><strong>#{session["name"]}</strong></p>
                           <p class="speakers"><em>#{speakers}</em></p>
-                          <div class="shortDescription"> #{short_description} </div>
+                          <div class="shortDescription" style="display: none;> #{short_description} </div>
                           <div class="longDescription" style="display: none;">#{description}</div>
-                          <p><span class="readMore" id="#{session["session_id"]}">Read More</span></p>
+                          <p style="display: none;"><span class="readMore" id="#{session["session_id"]}">Read More</span></p>
                           <p><a href="#{link}">Click here for more information</a></p>
                           #{meeting_type}
                           #{circles}
