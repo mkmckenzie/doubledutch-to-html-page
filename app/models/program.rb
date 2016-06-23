@@ -62,7 +62,7 @@ class Program < ActiveRecord::Base
       filter_list = ""
       filters.each do |filter| 
         meeting_type << "<div class=\"#{filter.gsub(" ", "")} filter\">#{filter}</div>"
-        filter_list << filter.gsub(" ", "").gsub(",", " ")
+        filter_list << filter.gsub(" ", "").gsub(",", " ").gsub("&","").gsub("-", "").gsub("+","")
       end
       
       circles = ""
